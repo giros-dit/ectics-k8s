@@ -4,8 +4,15 @@
 Linux con VNX instalado (vnx.dit.upm.es). Receta probada sobre Ubuntu 20.04 y 22.04.
 
 El escenario utiliza dos imágenes de VNX:
-- vnx_rootfs_kvm_ubuntu64-22.04-v025.qcow2
-- vnx_rootfs_lxc_ubuntu64-20.04-v025
+- vnx_rootfs_kvm_ubuntu64-22.04-v025.qcow2, usada para las máquinas virtuales KVM que implementan los tres nodos del cluster k8s.
+- vnx_rootfs_lxc_ubuntu64-20.04-v025, usada para los contenedores auxiliares del escenario. 
+
+Para descargarlas, ejecutar:
+```bash
+cd /usr/share/vnx/filesystems
+vnx_download_rootfs -r vnx_rootfs_kvm_ubuntu64-22.04-v025.qcow2 -y -l
+vnx_download_rootfs -r vnx_rootfs_lxc_ubuntu64-20.04-v025 -y -l
+```
 
 ### Manual de usuario
 
@@ -22,7 +29,7 @@ sudo vnx -f k8s-lab-kubeadm.xml --create
 scp k8s-master:.kube/config ~/.kube
 ```
 
-
+### Comprobación del funcionamiento del cluster
 
 ### Referencias
 
