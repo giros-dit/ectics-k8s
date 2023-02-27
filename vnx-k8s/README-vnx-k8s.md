@@ -31,6 +31,28 @@ scp k8s-master:.kube/config ~/.kube
 
 ### Comprobación del funcionamiento del cluster
 
+```bash
+$ kubectl get pods -n kube-system
+NAME                                      READY   STATUS    RESTARTS   AGE
+calico-kube-controllers-57b57c56f-dsqfk   1/1     Running   0          35m
+calico-node-ddjjh                         1/1     Running   0          35m
+calico-node-fzzq9                         1/1     Running   0          35m
+calico-node-rvgcd                         1/1     Running   0          35m
+coredns-787d4945fb-fvk7c                  1/1     Running   0          37m
+coredns-787d4945fb-mssvq                  1/1     Running   0          37m
+etcd-k8s-master                           1/1     Running   0          37m
+kube-apiserver-k8s-master                 1/1     Running   0          37m
+kube-controller-manager-k8s-master        1/1     Running   0          37m
+kube-multus-ds-5gd4p                      1/1     Running   0          34m
+kube-multus-ds-ch2ns                      1/1     Running   0          34m
+kube-multus-ds-whqb5                      1/1     Running   0          34m
+kube-proxy-lw54x                          1/1     Running   0          37m
+kube-proxy-pvnvd                          1/1     Running   0          35m
+kube-proxy-xsskr                          1/1     Running   0          36m
+kube-scheduler-k8s-master                 1/1     Running   0          37m
+```
+
+
 ### Referencias
 
 Referencias:
