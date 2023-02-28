@@ -61,19 +61,53 @@ kube-proxy-xsskr                          1/1     Running   0          36m
 kube-scheduler-k8s-master                 1/1     Running   0          37m
 ```
 ### Ejemplos de despliegue de servicios
-Se proporcionan junto con el escenario virtual de pruebas algunos ejemplos sencillo de despliegue de servicios. 
-
-#### Despliegue de un servicio de tipo NodePort
-
-- Despliegue de tres servidores web nginx: 
+Se proporcionan junto con el escenario virtual de pruebas algunos ejemplos sencillo de despliegue de servicios. Los ejemplos se basan en el despliegue de tres servidores web nginx mediante el siguiente *Deployment*:
+```bash
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-web-server-pool
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-web-server
+  template:
+    metadata:
+      labels:
+        app: nginx-web-server
+    spec:
+      containers:
+        - image: nginx
+          name: nginx-web-server
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "echo $( hostname ) > /usr/share/nginx/html/index.html"]
+```
+- Para desplegar los tres servidores web: 
 ```bash
 kubectl apply -f examples/nginx-web-server.yaml 
 ```
+- Para comprobar que se han desplegado correctamente 
+```bash
+$ kubectl get pods
+NAME                                     READY   STATUS    RESTARTS   AGE
+nginx-web-server-pool-6867b54ccc-5r6qv   1/1     Running   0          80m
+nginx-web-server-pool-6867b54ccc-fx79w   1/1     Running   0          80m
+nginx-web-server-pool-6867b54ccc-k78kp   1/1     Running   0          80m
+```
+
+#### Despliegue de un servicio de tipo NodePort
+
 - Despliegue del servicio NodePort para acceder a los servidores:
 ```bash
 kubectl apply -f examples/nginx-service-nodeport.yaml
 ```
-- Para comprobar 
+- En este caso, el servicio estará accesible en el puerto 3000 Para comprobar 
 
 ### Referencias
 
