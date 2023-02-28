@@ -178,6 +178,10 @@ spec:
             port:
               number: 9090
 ```
+- Despliegue del servicio nodePort al que accederá el objeto ingress:
+```bash
+kubectl apply -f examples/nginx-service-nodeport.yaml
+```
 - Despliegue del objeto ingress para acceder a los servidores:
 ```bash
 kubectl apply -f examples/nginx-ingress.yaml
