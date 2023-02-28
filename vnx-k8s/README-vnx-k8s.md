@@ -12,6 +12,7 @@ Para descargarlas, ejecutar:
 cd /usr/share/vnx/filesystems
 vnx_download_rootfs -r vnx_rootfs_kvm_ubuntu64-22.04-v025.qcow2 -y -l
 vnx_download_rootfs -r vnx_rootfs_lxc_ubuntu64-20.04-v025 -y -l
+cd -
 ```
 
 ### Manual de usuario
