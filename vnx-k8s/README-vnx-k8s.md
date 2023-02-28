@@ -31,7 +31,15 @@ scp k8s-master:.kube/config ~/.kube
 ```
 
 ### Comprobación del funcionamiento del cluster
-
+- Disponibilidad de nodos del cluster:
+```bash
+$ kubectl get nodes
+NAME          STATUS   ROLES           AGE   VERSION
+k8s-master    Ready    control-plane   15m   v1.26.1
+k8s-worker1   Ready    <none>          13m   v1.26.1
+k8s-worker2   Ready    <none>          13m   v1.26.1
+```
+- Estado de los pod del sistema:
 ```bash
 $ kubectl get pods -n kube-system
 NAME                                      READY   STATUS    RESTARTS   AGE
@@ -52,7 +60,20 @@ kube-proxy-pvnvd                          1/1     Running   0          35m
 kube-proxy-xsskr                          1/1     Running   0          36m
 kube-scheduler-k8s-master                 1/1     Running   0          37m
 ```
+### Ejemplos de despliegue de servicios
+Se proporcionan junto con el escenario virtual de pruebas algunos ejemplos sencillo de despliegue de servicios. 
 
+#### Despliegue de un servicio de tipo NodePort
+
+- Despliegue de tres servidores web nginx: 
+```bash
+kubectl apply -f examples/nginx-web-server.yaml 
+```
+- Despliegue del servicio NodePort para acceder a los servidores:
+```bash
+kubectl apply -f examples/nginx-service-nodeport.yaml
+```
+- Para comprobar 
 
 ### Referencias
 
