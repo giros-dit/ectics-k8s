@@ -139,7 +139,6 @@ spec:
   ports:
   - port: 9090
     targetPort: 80
-    nodePort: 30000
   selector:
     app: nginx-web-server
 ```
@@ -159,6 +158,41 @@ nginx-service   LoadBalancer   10.107.39.126   10.10.10.20   9090:30000/TCP   3h
 $ while true; do curl --no-progress-meter 10.10.10.20:9090; sleep 1; done
 ```
 
+#### Acceso a los servidores mediante un proxy inverso (Ingress)
+- Definición del objeto (nginx-ingress.yaml):
+```bash
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+spec:
+  rules:
+  - host: iaaas.pagoda.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 9090
+```
+- Despliegue del objeto ingress para acceder a los servidores:
+```bash
+kubectl apply -f examples/nginx-ingress.yaml
+```
+- En este caso, el servicio estará accesible en el puerto 9090 de la dirección asignada al servicio nginx-service por el LoadBalancer. Dicha dirección puede averiguarse con el comando:
+```bash
+$ kubectl get service
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes      ClusterIP      10.96.0.1       <none>        443/TCP          5h2m
+nginx-service   LoadBalancer   10.107.39.126   10.10.10.20   9090:30000/TCP   3h
+```
+- Se puede comprobar el acceso al servicio y el balanceo de tráfico mediante el siguiente comando:
+```bash
+$ while true; do curl --no-progress-meter 10.10.10.20:9090; sleep 1; done
+```
 ### Referencias
 
 Referencias:
