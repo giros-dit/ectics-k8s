@@ -126,9 +126,33 @@ kubectl apply -f examples/nginx-service-nodeport.yaml
 $ while true; do curl --no-progress-meter 10.10.10.10:30000; sleep 1; done    # Acceso a través de nodo k8s-master
 $ while true; do curl --no-progress-meter 10.10.10.11:30000; sleep 1; done    # Acceso a través de nodo k8s-worker1
 $ while true; do curl --no-progress-meter 10.10.10.12:30000; sleep 1; done    # Acceso a través de nodo k8s-worker2
-
 ```
-
+#### Acceso a los servidores mediante un servicio del tipo LoadBalancer
+- Definición del servicio (nginx-service-lb.yaml):
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 9090
+    targetPort: 80
+    nodePort: 30000
+  selector:
+    app: nginx-web-server
+```
+- Despliegue del servicio para acceder a los servidores:
+```bash
+kubectl apply -f examples/nginx-service-lb.yaml
+```
+- En este caso, el servicio estará accesible en el puerto 3000 de cada una de las direcciones de los nodos. Se puede comprobar el acceso al servicio y el balanceo de tráfico mediante los siguientes comandos:
+```bash
+$ while true; do curl --no-progress-meter 10.10.10.10:30000; sleep 1; done    # Acceso a través de nodo k8s-master
+$ while true; do curl --no-progress-meter 10.10.10.11:30000; sleep 1; done    # Acceso a través de nodo k8s-worker1
+$ while true; do curl --no-progress-meter 10.10.10.12:30000; sleep 1; done    # Acceso a través de nodo k8s-worker2
+```
 
 ### Referencias
 
