@@ -147,11 +147,16 @@ spec:
 ```bash
 kubectl apply -f examples/nginx-service-lb.yaml
 ```
-- En este caso, el servicio estará accesible en el puerto 3000 de cada una de las direcciones de los nodos. Se puede comprobar el acceso al servicio y el balanceo de tráfico mediante los siguientes comandos:
+- En este caso, el servicio estará accesible en el puerto 9090 de la dirección asignada al servicio nginx-service por el LoadBalancer. Dicha dirección puede averiguarse con el comando:
 ```bash
-$ while true; do curl --no-progress-meter 10.10.10.10:30000; sleep 1; done    # Acceso a través de nodo k8s-master
-$ while true; do curl --no-progress-meter 10.10.10.11:30000; sleep 1; done    # Acceso a través de nodo k8s-worker1
-$ while true; do curl --no-progress-meter 10.10.10.12:30000; sleep 1; done    # Acceso a través de nodo k8s-worker2
+$ kubectl get service
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes      ClusterIP      10.96.0.1       <none>        443/TCP          5h2m
+nginx-service   LoadBalancer   10.107.39.126   10.10.10.20   9090:30000/TCP   3h
+```
+- Se puede comprobar el acceso al servicio y el balanceo de tráfico mediante el siguiente comando:
+```bash
+$ while true; do curl --no-progress-meter 10.10.10.20:9090; sleep 1; done
 ```
 
 ### Referencias
