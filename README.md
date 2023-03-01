@@ -3,4 +3,6 @@ Este repositorio incluye la información sobre los procedimientos de creación y
 
 ![Cluster Kubernetes de servicios comunes](k8s-nc.png)
 
+En el directorio umu-nc-k8s se pueden encontrar los procedimientos y scripts usados para la creación del cluster k8s.
+En el directorio vnx-k8s se puede encontrar el escenario virtual de pruebas del cluster diseñado para la formación en la gestión del cluster y en el despliegue de servicios sobre él. 
 
