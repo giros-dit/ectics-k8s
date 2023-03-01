@@ -76,6 +76,32 @@ kube-proxy-pvnvd                          1/1     Running   0          35m
 kube-proxy-xsskr                          1/1     Running   0          36m
 kube-scheduler-k8s-master                 1/1     Running   0          37m
 ```
+- Estado de los pod de Ingress:
+```bash
+ kubectl get pods -n ingress-nginx
+NAME                                        READY   STATUS      RESTARTS   AGE
+ingress-nginx-admission-create-2j4f8        0/1     Completed   0          24m
+ingress-nginx-admission-patch-shlzz         0/1     Completed   2          24m
+ingress-nginx-controller-64f79ddbcc-j8v7n   1/1     Running     0          24m
+``` 
+-Estado de los pod y configuración de MetalLB:
+```bash
+kubectl get pods -n metallb-system -o wide
+NAME                          READY   STATUS    RESTARTS   AGE   IP                NODE          NOMINATED NODE   READINESS GATES
+controller-577b5bdfcc-kl4pg   1/1     Running   0          25m   172.16.194.68     k8s-worker1   <none>           <none>
+speaker-9r5hm                 1/1     Running   0          25m   192.168.122.199   k8s-worker2   <none>           <none>
+speaker-w95zd                 1/1     Running   0          25m   192.168.122.127   k8s-worker1   <none>           <none>
+speaker-xc928                 1/1     Running   0          25m   192.168.122.55    k8s-master    <none>           <none>
+
+kubectl get ipaddresspools.metallb.io -n metallb-system
+NAME         AUTO ASSIGN   AVOID BUGGY IPS   ADDRESSES
+first-pool   true          false             ["10.10.10.20-10.10.10.30"]
+
+kubectl get l2advertisements.metallb.io -n metallb-system
+NAME    IPADDRESSPOOLS   IPADDRESSPOOL SELECTORS   INTERFACES
+empty
+```
+
 ### Ejemplos de despliegue de servicios
 Se proporcionan junto con el escenario virtual de pruebas algunos ejemplos sencillo de despliegue de servicios. Los ejemplos se basan en el despliegue de tres servidores web nginx mediante el siguiente *Deployment*:
 ```bash
