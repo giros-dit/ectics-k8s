@@ -52,6 +52,8 @@ SPAIN
       <ipv4>dhcp</ipv4>
     </if>
     <route type="ipv4" gw="10.10.10.1">10.10.20.0/24</route>
+    <filetree seq="on_boot" root="/root/k8s/">conf/k8s/metallb/config-pool.yaml</filetree>
+    <filetree seq="on_boot" root="/root/k8s/">conf/k8s/metallb/config-l2adv.yaml</filetree>
   </vm>
 
   <vm name="k8s-worker1" type="libvirt" subtype="kvm" os="linux" exec_mode="sdisk" arch="x86_64" vcpu="1">
