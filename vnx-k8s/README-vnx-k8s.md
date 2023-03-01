@@ -6,7 +6,8 @@
 
 
 ### Requisitos
-Linux con VNX instalado (vnx.dit.upm.es). Receta probada sobre Ubuntu 20.04 y 22.04.
+#### Host Linux con VNX instalado 
+Ver receta de instalación de VNX en http://vnx.dit.upm.es. Receta probada sobre Ubuntu 20.04 y 22.04.
 
 El escenario utiliza dos imágenes de VNX:
 - vnx_rootfs_kvm_ubuntu64-22.04-v025.qcow2, usada para las máquinas virtuales KVM que implementan los tres nodos del cluster k8s.
@@ -18,6 +19,16 @@ cd /usr/share/vnx/filesystems
 vnx_download_rootfs -r vnx_rootfs_kvm_ubuntu64-22.04-v025.qcow2 -y -l
 vnx_download_rootfs -r vnx_rootfs_lxc_ubuntu64-20.04-v025 -y -l
 cd -
+```
+#### kubectl
+para instalar kubectl en el host (ver https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+```bash
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
 ```
 
 ### Manual de usuario
