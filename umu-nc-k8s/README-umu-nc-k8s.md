@@ -1,3 +1,53 @@
+## Procedimiento de instalación del cluster K8s en el nodo central
+El primer paso a realizar para la instalación del cluster K8s es la creación de la imagen base que utilizarán los nodos del cluster (jammy-server-cloudimg-amd64-k8s), partiendo de una imagen genérica de Linux Ubuntu 22.04 (jammy-server-cloudimg-amd64). 
+Para ello se han creado dos scripts: 
+- *create-k8s-image.sh*, que crea una nueva máquina virtual en OpenStack partiendo de la imagen genérica,
+- *install-k8s-nc-from-jammy-k8s*, que posteriormente instala en la máquina todos los paquetes software necesarios para el funcionamiento de K8s. 
+```bash
+source bin/admin-openrc-central.sh            # Carga de credenciales de OpenStack
+mkdir -p keys
+openstack keypair create k8s-nc > keys/k8s-nc # Creación de la pareja de claves
+./create-k8s-image.sh                         # Creación de la máquina virtual 
+ssh -i keys/k8s-nc.pem root@10.20.240.50      # Comprobación del acceso por ssh
+./install-k8s-nc-from-jammy-k8s               # Instalación del software de k8s
+```
+Una vez instalado el software y antes de convertir la máquina virtual en una imagen, es necesario realizar algunas modificaciones manualmente:
+- Reactivar el funcionamiento de cloud-init, borrando los ficheros que indican que ya se ha ejecutado:
+```bash
+sudo rm -rf /var/lib/cloud/*
+```
+- Modificar el fichero /etc/netplan/50-cloud-init.yam:
+```bash
+network:
+    version: 2
+    ethernets:
+        ens3:
+            dhcp4: true
+```
+- Modificar el servicio de SSH para permitir el acceso con claves de usuario:
+```bash
+sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' \ /etc/ssh/sshd_config
+```
+- Crear una cuenta para administración del cluster, por ejemplo, k8s:
+```bash
+adduser k8s
+usermod -aG sudo k8s
+```
+Finalmente, se debe parar la máquina virtual y convertirla en imagen de OpenStack:
+```bash
+openstack server stop k8s-img
+openstack server image create --name jammy-server-cloudimg-amd64-k8s --wait k8s-img
+```
+Nota: el parámetro --name no funciona correctamente y la imagen se crea con otro nombre distinto. Es necesario acceder al Dashboard de OpenStack y cambiar el nombre a mano a jammy-server-cloudimg-amd64-k8s.
+La imagen creada se puede salvar a un fichero mediante el siguiente comando:
+```bash
+openstack image save --file jammy-server-cloudimg-amd64-k8s.img jammy-server-cloudimg-amd64-k8s
+```
+
+
+
+
+
 Acceso al cluster de Kubernetes del nodo central
 ------------------------------------------------
 
