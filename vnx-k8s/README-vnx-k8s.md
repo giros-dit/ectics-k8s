@@ -169,7 +169,6 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-
   rules:
   - host: example.pagoda.local
     http:
@@ -219,8 +218,6 @@ while true; do curl --no-progress-meter example.pagoda.local/path; sleep 1; done
 ```
 
 ### Referencias
-
-Referencias:
 - How to Install Kubernetes Cluster on Ubuntu 22.04. https://www.linuxtechi.com/install-kubernetes-on-ubuntu-22-04/
-- https://sangvhh.net/exposing-kubernetes-services-with-metallb-and-nginx-ingress-controller/
+- Exposing Kubernetes services with MetalLB and Nginx ingress controller. https://sangvhh.net/exposing-kubernetes-services-with-metallb-and-nginx-ingress-controller/
 
