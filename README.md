@@ -6,4 +6,4 @@ Las tres máquinas virtuales actuan como nodos que alojan contenedores (workers)
 
 ## Contenido
 - En el directorio [umu-nc-k8s](umu-nc-k8s) se pueden encontrar los procedimientos y scripts usados para la creación del cluster k8s.
-- En el directorio [vnx-k8s](vnx-k8s) se puede encontrar el escenario virtual de pruebas del cluster diseñado para la formación en la gestión del cluster y en el despliegue de servicios sobre él. 
+- En el directorio [vnx-k8s](vnx-k8s) se puede encontrar el escenario virtual de pruebas del cluster diseñado para la formación en la gestión del cluster. Se incluyen varios ejemplos para el despliegue de servicios. 
