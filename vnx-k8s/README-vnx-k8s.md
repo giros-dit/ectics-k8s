@@ -21,7 +21,7 @@ vnx_download_rootfs -r vnx_rootfs_lxc_ubuntu64-20.04-v025 -y -l
 cd -
 ```
 #### kubectl
-para instalar kubectl en el host (ver https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+Para instalar kubectl en el host (ver https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 ```bash
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl
