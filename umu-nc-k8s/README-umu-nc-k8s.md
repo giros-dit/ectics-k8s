@@ -47,14 +47,52 @@ openstack image save --file jammy-server-cloudimg-amd64-k8s.img jammy-server-clo
 
 ### Creación y configuración de las máquinas virtuales del cluster k8s
 Una vez generada la imagen, se crean los nodos del cluster (k8s-nc2, k8s-nc3 y k8s-nc4) como máquinas virtuales en OpenStack utilizando el script:
-´´´bash
+```bash
 bin/create-k8s-nc-from-jammy-k8s.sh
 ```
 Cada nodo del cluster se despliega en su nodo de OpenStack correspondiente. A continuación, se configuran los nodos utilizando el script:
-./ install-k8s-nc-from-jammy-k8s
+```bash
+bin/ install-k8s-nc-from-jammy-k8s
+```
 Terminado este paso, el cluster está listo para usarse. 
-Adicionalmente 
 
+La gestión del cluster se realiza mediante el comando kubectl estándar de K8s. Para poder acceder al cluster es necesario descargar primero el fichero con sus credenciales al sistema desde el que se vaya a ejecutar el comando kubectl. Dicho fichero está localizado en el nodo de control en el ordenador desde. Por ejemplo, se puede usar el comando:
+```bash
+scp -i k8s/keys/k8s-nc.pem root@10.20.240.51:.kube/config ~/.kube
+```
+Una vez copiado el fichero, se podrán ejecutar desde ese sistema todos los comandos kubectl. Por ejemplo, para comprobar la disponibilidad de los nodos del cluster:
+```bash
+kubectl get nodes
+NAME      STATUS          ROLES           AGE   VERSION
+k8s-nc2   Ready           control-plane   16d   v1.26.0
+k8s-nc3   Ready           <none>          16d   v1.26.0
+k8s-nc4   Ready           <none>          16d   v1.26.0
+```
+El acceso al cluster se realiza a través de la VLAN de servicios comunes (VLAN 3240). Las direcciones IP de los tres nodos están accesibles desde esa red:
+- **k8s-nc2**: 10.20.240.51 --> control+worker
+- **k8s-nc3**: 10.20.240.52 --> worker
+- **k8s-nc4**: 10.20.240.53 --> worker
+
+Adicionalmente, para instalar el proxy inverso Ingress-NGINX y el balanceador MetalLB se deben ejecutar los siguientes pasos:
+```bash
+wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/baremetal/deploy.yaml
+sed -i 's/NodePort/LoadBalancer/' deploy.yaml
+kubectl apply -f deploy.yaml
+```
+Para comprobar que la instalación ha sido correcta, se puede utilizar el comando:
+```bash
+kubectl get pods -n ingress-nginx
+```
+Finalmente, para instalar el balanceador MetalLB, se deben ejecutar los comandos siguientes:
+```bash
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
+kubectl apply -f k8s/config-pool.yaml
+kubectl apply -f k8s/config-l2adv.yaml
+```
+Para comprobar que la instalación ha sido correcta, se puede utilizar el comando:
+```bash
+kubectl get all -n metallb-system
+```
 
 
 
@@ -63,9 +101,7 @@ Acceso al cluster de Kubernetes del nodo central
 
 - Direcciones nodos:
 
-k8s-nc2: 10.20.240.51 --> control+worker
-k8s-nc3: 10.20.240.52 --> worker
-k8s-nc4: 10.20.240.53 --> worker
+
 
 - Acceso a nodos del cluster desde nodocentral1:
 
