@@ -1,5 +1,10 @@
 ## Escenario de pruebas del cluster de Kubernetes
 
+### Topología del escenario
+
+![Escenario VNX de pruebas de Kubernetes ](vnx-k8s-lab.png)
+
+
 ### Requisitos
 Linux con VNX instalado (vnx.dit.upm.es). Receta probada sobre Ubuntu 20.04 y 22.04.
 
