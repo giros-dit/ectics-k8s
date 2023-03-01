@@ -169,6 +169,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+
   rules:
   - host: example.pagoda.local
     http:
@@ -181,7 +182,7 @@ spec:
             port:
               number: 9090
 ```
-- Servicio del tipo CLusterIP asociado: 
+- Servicio del tipo ClusterIP asociado: 
 ```bash
 apiVersion: v1
 kind: Service
@@ -197,7 +198,7 @@ spec:
 ```
 - Despliegue del servicio tipo clusterIP al que accederá el objeto ingress:
 ```bash
-kubectl apply -f examples/nginx-service-nodeport.yaml
+kubectl apply -f examples/nginx-service-clusterip.yaml
 ```
 - Despliegue del objeto ingress para acceder a los servidores:
 ```bash
