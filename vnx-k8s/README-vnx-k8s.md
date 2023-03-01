@@ -209,6 +209,7 @@ kubectl apply -f examples/nginx-ingress.yaml
 kubectl get services -n ingress-nginx ingress-nginx-controller
 ```
 - Directamente se puede averiguar la dirección y añadir al /etc/hosts con:
+```bash
 NGINXIPADDR=$( kubectl get services -n ingress-nginx ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}' )
 sudo bash -c "echo '$NGINXIPADDR example.pagoda.local' >> /etc/hosts" 
 ```
