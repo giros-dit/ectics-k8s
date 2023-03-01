@@ -2,7 +2,7 @@
 
 ### Topología del escenario
 
-![Escenario VNX de pruebas de Kubernetes ](vnx-k8s-lab.png)
+![Escenario VNX de pruebas de Kubernetes ](img/vnx-k8s-lab.png)
 
 
 ### Requisitos
