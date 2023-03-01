@@ -1,4 +1,5 @@
 ## Procedimiento de instalación del cluster K8s en el nodo central
+### Creación de la imagen base
 El primer paso a realizar para la instalación del cluster K8s es la creación de la imagen base que utilizarán los nodos del cluster (*jammy-server-cloudimg-amd64-k8s*), partiendo de una imagen genérica de Linux Ubuntu 22.04 (*jammy-server-cloudimg-amd64*). 
 Para ello se han creado dos scripts: 
 - *create-k8s-image.sh*, que crea una nueva máquina virtual en OpenStack partiendo de la imagen genérica,
@@ -44,6 +45,15 @@ La imagen creada se puede salvar a un fichero mediante el siguiente comando:
 openstack image save --file jammy-server-cloudimg-amd64-k8s.img jammy-server-cloudimg-amd64-k8s
 ```
 
+### Creación y configuración de las máquinas virtuales del cluster k8s
+Una vez generada la imagen, se crean los nodos del cluster (k8s-nc2, k8s-nc3 y k8s-nc4) como máquinas virtuales en OpenStack utilizando el script:
+´´´bash
+bin/create-k8s-nc-from-jammy-k8s.sh
+```
+Cada nodo del cluster se despliega en su nodo de OpenStack correspondiente. A continuación, se configuran los nodos utilizando el script:
+./ install-k8s-nc-from-jammy-k8s
+Terminado este paso, el cluster está listo para usarse. 
+Adicionalmente 
 
 
 
