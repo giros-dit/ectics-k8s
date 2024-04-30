@@ -1,3 +1,9 @@
+## Acknowledgements
+
+This work is a result of project [ECTICS](https://www.dit.upm.es/~giros/project/ectics/) (PID2019-105257RB-C21), funded by:
+
+![financing-logo](doc/img/MICIU_AEI_w400.jpg)
+
 # Cluster de Kubernetes nodo central PAGODA
 Este repositorio incluye la información sobre los procedimientos de creación y gestión del cluster de Kubernetes del nodo central de PAGODA, formado por tres nodos desplegados como máquinas virtuales sobre tres de los nodos del cluster OpenStack del nodo central. 
 
