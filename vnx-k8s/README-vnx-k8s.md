@@ -163,7 +163,7 @@ spec:
 ```bash
 kubectl apply -f examples/nginx-service-nodeport.yaml
 ```
-- En este caso, el servicio estará accesible en el puerto 3000 de cada una de las direcciones de los nodos. Se puede comprobar el acceso al servicio y el balanceo de tráfico mediante los siguientes comandos:
+- En este caso, el servicio estará accesible en el puerto 30000 de cada una de las direcciones de los nodos. Se puede comprobar el acceso al servicio y el balanceo de tráfico mediante los siguientes comandos:
 ```bash
 while true; do curl --no-progress-meter 10.10.10.10:30000; sleep 1; done    # Acceso a través de nodo k8s-master
 while true; do curl --no-progress-meter 10.10.10.11:30000; sleep 1; done    # Acceso a través de nodo k8s-worker1
